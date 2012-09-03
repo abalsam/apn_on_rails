@@ -30,9 +30,11 @@ class APN::Notification < APN::Base
   # If the message is over 150 characters long it will get truncated
   # to 150 characters with a <tt>...</tt>
   def alert=(message)
-    msg = message.force_encoding("UTF-8")
-    msg = "#{msg.byteslice(0, 147)}..." if !msg.blank? && msg.bytesize > 150
-    write_attribute('alert', msg)
+    unless message.blank?
+      message = message.force_encoding("UTF-8")
+      message = "#{message.byteslice(0, 147)}..." if message.bytesize > 150
+    end
+    write_attribute('alert', message)
   end
 
   # Creates a Hash that will be the payload of an APN.
